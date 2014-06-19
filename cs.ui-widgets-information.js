@@ -1,19 +1,21 @@
 // ==UserScript==
 // @name       CS UI Widgets Information
 // @namespace  mailto:fprantl@opentext.com
-// @version    0.2
+// @version    0.3
 // @description  Shows information about a CS UI Widgets authenticated session.
 //               It makes a call to the CS REST API using the CS UI Widgets to find
 //               out the name of the Personal Volume of the authenticated user which
 //               usually includes the user name.  Before you execute it, authenticate
 //               the CS UI Widgets on your page, otherwise you get the login dialog.
 // @match      *://*/*
-// @copyright  (c) 2013 OpenText GmbH
+// @copyright  (c) 2013-2014 Ferdinand Prantl, OpenText GmbH
 // ==/UserScript==
 
 if (typeof csui !== "undefined") {
-  csui.require(["lib/jquery", "util/connector", "model/volume"],
-  function($, Connector, VolumeModel) {
+  var modules = csui.require.defined("lib/jquery") &&
+        ["lib/jquery", "util/connector", "model/volume"] ||
+        ["csui/lib/jquery", "csui/util/connector", "csui/model/volume"];
+  csui.require(modules, function($, Connector, VolumeModel) {
     // Declare the place with all CS UI Widgets information, the definition list
     // with entries for every stored authenticated session and a progress indicator.
     var place, list, progress;
@@ -72,11 +74,10 @@ if (typeof csui !== "undefined") {
         list.empty();
         // The base authentiactor object stores the session in the session storage
         // as a string with a JSON object, where keyas are the CS REST API URLs
-        sessions = sessionStorage.getItem("util/authenticator");
-        if (!sessions) {
-          // Try older version of the authenticastors too.
-          sessions = sessionStorage.getItem("util/otcsauthenticator");
-        }
+        sessions = sessionStorage.getItem("csui/util/authenticator") ||
+          // Try older versions of the authenticastors too.
+          sessionStorage.getItem("util/authenticator") ||
+          sessionStorage.getItem("util/otcsauthenticator");
         if (sessions) {
           // Parsing the stored string should never fail, but just in case
           try {
@@ -108,8 +109,15 @@ if (typeof csui !== "undefined") {
         if (confirm("Do you really want to clear all authenticated CS UI Widgets sessions?\n" +
                     "New authentication will be performed on the next page load.")) {
           // Clear the session storage of the base authenticator
+          if (sessionStorage.getItem("csui/util/authenticator")) {
+            sessionStorage.removeItem("csui/util/authenticator");
+          }
+          // Deal with older versions of the authenticastors too.
           if (sessionStorage.getItem("util/authenticator")) {
             sessionStorage.removeItem("util/authenticator");
+          }
+          if (sessionStorage.getItem("util/otcsauthenticator")) {
+            sessionStorage.removeItem("util/otcsauthenticator");
           }
           // Clear the displated definition list
           list.empty();
