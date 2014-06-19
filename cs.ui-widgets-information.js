@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       CS UI Widgets Information
 // @namespace  mailto:fprantl@opentext.com
-// @version    0.1
+// @version    0.2
 // @description  Shows information about a CS UI Widgets authenticated session.
 //               It makes a call to the CS REST API using the CS UI Widgets to find
 //               out the name of the Personal Volume of the authenticated user which
@@ -73,6 +73,10 @@ if (typeof csui !== "undefined") {
         // The base authentiactor object stores the session in the session storage
         // as a string with a JSON object, where keyas are the CS REST API URLs
         sessions = sessionStorage.getItem("util/authenticator");
+        if (!sessions) {
+          // Try older version of the authenticastors too.
+          sessions = sessionStorage.getItem("util/otcsauthenticator");
+        }
         if (sessions) {
           // Parsing the stored string should never fail, but just in case
           try {
