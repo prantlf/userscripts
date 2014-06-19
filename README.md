@@ -7,3 +7,8 @@ Search developer.opentext.com with Google
 -----------------------------------------
 
 Replaces the built-in search at developer.opentext.com by the Google Custom Search searching this domain only.
+
+CS UI Widgets Information
+-------------------------
+
+Shows information about a CS UI Widgets authenticated session.
