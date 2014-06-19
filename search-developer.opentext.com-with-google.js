@@ -2,9 +2,10 @@
 // @name       Search developer.opentext.com with Google
 // @namespace  mailto:fprantl@opentext.com
 // @version    0.2
-// @description  Replaces the built-in search at developer.opentext.com by the
-//               Google Custom Search searching this domain only.  The URL points
-//               to my CSE but it can be modified.  Built-in search stays available.
+// @description  Replaces the built-in search at developer.opentext.com
+//               by the Google Custom Search searching that domain only.
+//               The URL points to my CSE but it can be modified.
+//               The built-in AppWorks search remains available.
 // @match      *://developer.opentext.com/*
 // @copyright  (c) 2014 OpenText GmbH
 // ==/UserScript==
