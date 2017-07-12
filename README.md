@@ -15,3 +15,8 @@ CS UI Widgets Information
 -------------------------
 
 Shows information about a CS UI Widgets authenticated session.
+
+Hide Ad Panel in Hotmail
+------------------------
+
+Hides the right sidebar with ads and stretches the e-mail body to take its place.
